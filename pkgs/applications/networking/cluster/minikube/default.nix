@@ -12,9 +12,9 @@
 
 buildGoModule rec {
   pname = "minikube";
-  version = "1.30.1";
+  version = "1.31.1";
 
-  vendorHash = "sha256-616T47H+8FdXU37MDvAHRyM59JXurU45uz8c/TNxkkc=";
+  vendorHash = "sha256-6vCZUDH35OclO02sV+AXv8+bj4klwoZC0abotheHSoU=";
 
   doCheck = false;
 
