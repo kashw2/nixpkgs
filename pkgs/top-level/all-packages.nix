@@ -24210,6 +24210,8 @@ with pkgs;
 
   nanomq = callPackage ../servers/mqtt/nanomq { };
 
+  neondb = callPackage ../servers/sql/neon { };
+
   mps = callPackage ../development/libraries/mps { stdenv = gcc10StdenvCompat; };
 
   libmpeg2 = callPackage ../development/libraries/libmpeg2 { };
