@@ -5,7 +5,7 @@
 
 stdenv.mkDerivation rec {
   pname = "muse-sequencer";
-  version = "3.1.1";
+  version = "4.1.0";
 
   src = fetchFromGitHub {
     owner = "muse-sequencer";
