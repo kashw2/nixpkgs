@@ -5,32 +5,60 @@ stdenv
 , fetchFromGitHub
 , pkg-config
 , cmake
-, postgresql_14
+, readline
+, zlib
+, openssl
+, libseccomp
+, perl
+, bison
+, flex
+, coreutils
  }:
 
 stdenv.mkDerivation rec {
     pname = "neon";
     version = "3592";
 
+    preConfigure = ''
+        BUILD_TYPE="release make -j`nproc` -s"
+        ROOT_PROJECT_DIR = "./"
+    '';
+
+    postConfigure = ''
+        LD_LIBRARY_PATH="$out/pg_install/bin;$out/pg_install/lib"
+    '';
+
     src = fetchFromGitHub {
         owner = "neondatabase";
         repo = pname;
         rev = "release-${version}";
-        sha256 = "IC5K3E47St0EizJeP1SjZ9DZnLcIrlOKWza3X/bZTKw=";
-        deepClone = true;
+        hash = "sha256-KcUbfUy8PuPXQmtFK0hlFsJpddgb2w+zyY4JJjkG7Lw=";
+        fetchSubmodules = true;
     };
 
-    nativeBuildInputs = [ postgresql_14 ];
+    nativeBuildInputs = [ perl bison flex ];
+
+    buildInputs = [ readline zlib openssl libseccomp ];
+
+    configurePhase = ''
+        substituteInPlace /build/source/vendor/postgres-v14/configure \
+            --replace "/bin/pwd" "${coreutils}/bin/pwd"
+        substituteInPlace /build/source/vendor/postgres-v15/configure \
+            --replace "/bin/pwd" "${coreutils}/bin/pwd"
+        substituteInPlace /build/source/Makefile \
+            --replace "ROOT_PROJECT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))" "${src}" \
+            --replace "/scripts/ninstall.sh" "scripts/ninstall.sh"
+    '';
 
     buildPhase = ''
-        make
+        make -j`nproc` -s
     '';
 
     meta = with lib; {
         description = "Neon: Serverless Postgres. We separated storage and compute to offer autoscaling, branching, and bottomless storage.";
         homepage = "https://github.com/neondatabase/neon";
         license = licenses.asl20;
-        maintainers = [];        
+        maintainers = with maintainers; [ kashw2 ];        
     };
 
 }
