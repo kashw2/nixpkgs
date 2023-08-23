@@ -45,10 +45,7 @@ stdenv.mkDerivation rec {
             --replace "/bin/pwd" "${coreutils}/bin/pwd"
         substituteInPlace /build/source/vendor/postgres-v15/configure \
             --replace "/bin/pwd" "${coreutils}/bin/pwd"
-        substituteInPlace /build/source/Makefile \
-            --replace "ROOT_PROJECT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))" "${src}" \
-            --replace "/scripts/ninstall.sh" "scripts/ninstall.sh"
-    '';
+        '';
 
     buildPhase = ''
         make -j`nproc` -s
