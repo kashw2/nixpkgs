@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
   # Fix for https://github.com/NixOS/nixpkgs/issues/251261
   postInstall = ''
     wrapProgram $out/bin/wl-copy \
-      --prefix PATH : ${xdg-utils}/bin
+      --suffix PATH : ${xdg-utils}/bin/xdg-mime
   '';
 
   meta = with lib; {
