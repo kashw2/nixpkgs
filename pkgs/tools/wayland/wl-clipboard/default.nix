@@ -1,6 +1,7 @@
 { lib
 , stdenv
 , fetchFromGitHub
+, fetchpatch
 , meson
 , ninja
 , pkg-config
@@ -35,6 +36,14 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/wl-copy \
       --suffix PATH : ${xdg-utils}/bin/xdg-mime
   '';
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/bugaevc/wl-clipboard/pull/192.patch";
+      hash = "sha256-IX6Jyre0HNYjy8Qa7UhcdTLU5I4/MnNiaaHr6zKHa5U=";
+      name = "mime-type-fix.patch";
+    })
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/bugaevc/wl-clipboard";
