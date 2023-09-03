@@ -20,13 +20,13 @@
 
 stdenv.mkDerivation rec {
   pname = "cherrytree";
-  version = "0.99.56";
+  version = "1.0.1";
 
   src = fetchFromGitHub {
     owner = "giuspen";
     repo = "cherrytree";
     rev = version;
-    hash = "sha256-kDbUn81YfSMAX7FKcw+nDSrsNvrhOX0+NmgZUYNqCqQ=";
+    hash = "sha256-A/4OcsAOECgQnENj2l9BX713KHG+zk5cJE+yyHXw1TM=";
   };
 
   nativeBuildInputs = [
@@ -64,6 +64,6 @@ stdenv.mkDerivation rec {
     homepage = "https://www.giuspen.com/cherrytree";
     changelog = "https://raw.githubusercontent.com/giuspen/cherrytree/${version}/changelog.txt";
     license = licenses.gpl3Plus;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ kashw2 ];
   };
 }
