@@ -1,11 +1,11 @@
 { lib, stdenv, fetchurl, pkg-config, python3, udev, systemd }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "media-player-info";
   version = "24";
 
   src = fetchurl {
-    url = "https://www.freedesktop.org/software/media-player-info/${pname}-${version}.tar.gz";
+    url = "https://www.freedesktop.org/software/media-player-info/${finalAttrs.pname}-${finalAttrs.version}.tar.gz";
     sha256 = "0d0i7av8v369hzvlynwlrbickv1brlzsmiky80lrjgjh1gdldkz6";
   };
 
@@ -23,6 +23,6 @@ stdenv.mkDerivation rec {
     homepage = "https://www.freedesktop.org/wiki/Software/media-player-info/";
     license = licenses.bsd3;
     maintainers = with maintainers; [ ttuegel ];
-    platforms = with platforms; linux;
+    platforms = platforms.linux;
   };
-}
+})
