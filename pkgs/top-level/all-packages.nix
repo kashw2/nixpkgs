@@ -27808,9 +27808,7 @@ with pkgs;
 
   goverview = callPackage ../tools/security/goverview { };
 
-  go-tools = callPackage ../development/tools/go-tools {
-    buildGoModule = buildGo122Module;
-  };
+  go-tools = callPackage ../development/tools/go-tools { };
 
   gotest = callPackage ../development/tools/gotest { };
 
