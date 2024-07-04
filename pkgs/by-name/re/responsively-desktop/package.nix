@@ -55,7 +55,6 @@ let
       runHook preInstall
       mkdir -p $out/Applications $out/bin
       cp -R . $out/Applications/ResponsievelyApp.app
-      makeWrapper $out/Applications/ResponsievelyApp.app/Contents/MacOS/ResponsievelyApp $out/bin/${pname}
       runHook postInstall
     '';
 
