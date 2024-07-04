@@ -3,7 +3,7 @@
   stdenv,
   fetchurl,
   appimageTools,
-  makeBinaryWrapper,
+  makeWrapper,
   undmg,
   unzip
 }:
@@ -49,17 +49,17 @@ let
 
     sourceRoot = "ResponsivelyApp.app";
 
-    nativeBuildInputs = [ makeBinaryWrapper undmg ];
+    nativeBuildInputs = [ makeWrapper undmg ];
 
     installPhase = ''
       runHook preInstall
       mkdir -p $out/Applications $out/bin
       cp -R . $out/Applications/ResponsievelyApp.app
-      makeBinaryWrapper $out/Applications/ResponsievelyApp.app/Contents/MacOS/ResponsievelyApp $out/bin/${pname}
+      makeWrapper $out/Applications/ResponsievelyApp.app/Contents/MacOS/ResponsievelyApp $out/bin/${pname}
       runHook postInstall
     '';
 
-    meta = meta // { platforms = [ "aarch64-darwin" "x86_64-darwin" ]; };
+    meta = meta // { platforms = [ "aarch64-darwin" ]; };
   };
 in
 if stdenv.isDarwin then darwin else linux
