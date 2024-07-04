@@ -40,7 +40,7 @@ let
     meta = meta // { platforms = [ "x86_64-linux" ]; };
   };
   darwin = stdenv.mkDerivation {
-    inherit pname version meta;
+    inherit pname version;
 
     src = fetchurl {
       url = "https://github.com/responsively-org/responsively-app-releases/releases/download/v${version}/ResponsivelyApp-${version}.dmg";
