@@ -1391,6 +1391,7 @@ in
   pulseaudio = discoverTests (import ./pulseaudio.nix);
   pulseaudio-tcp = runTest ./pulseaudio-tcp.nix;
   pykms = runTest ./pykms.nix;
+  pyroscope = runTest ./pyroscope.nix;
   qbittorrent = runTest ./qbittorrent.nix;
   qboot = runTestOn [ "x86_64-linux" "i686-linux" ] ./qboot.nix;
   qemu-vm-credentials-fwcfg = runTest {
