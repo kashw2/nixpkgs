@@ -1,0 +1,16 @@
+Force GLFW to use the X11 backend on Linux to avoid a segfault.
+Vendored from https://github.com/VCVRack/Rack/pull/1944 because upstream
+has disabled pull requests, so the patch no longer has a stable download URL.
+--- a/src/window/Window.cpp
++++ b/src/window/Window.cpp
+@@ -819,6 +819,10 @@
+ 	glfwInitHint(GLFW_COCOA_MENUBAR, GLFW_FALSE);
+ #endif
+ 
++#if defined ARCH_LIN
++	glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
++#endif
++
+ 	glfwSetErrorCallback(errorCallback);
+ 	err = glfwInit();
+ 	if (err != GLFW_TRUE) {

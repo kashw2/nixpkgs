@@ -6,7 +6,6 @@
   curl,
   fetchFromBitbucket,
   fetchFromGitHub,
-  fetchpatch,
   ghc_filesystem,
   glew,
   glfw,
@@ -170,11 +169,8 @@ stdenv.mkDerivation (finalAttrs: {
     ./rack-minimize-vendoring.patch
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [
-    (fetchpatch {
-      name = "fix-segfault-on-linux.patch";
-      url = "https://github.com/VCVRack/Rack/pull/1944.patch";
-      hash = "sha256-dlndyCfCznGDzlWNWrQTgh+FtmsrrL2DVuRE0xCxUck=";
-    })
+    # Upstream disabled pull requests, so the patch from https://github.com/VCVRack/Rack/pull/1944 no longer has a stable URL.
+    ./fix-segfault-on-linux.patch
   ];
 
   prePatch = ''
@@ -213,6 +209,13 @@ stdenv.mkDerivation (finalAttrs: {
     # Set RACK_VERSION to avoid git describe, which fails in the Nix build sandbox.
     substituteInPlace Makefile \
       --replace-fail 'RACK_VERSION ?= $' 'RACK_VERSION ?= ${finalAttrs.version}#$'
+
+    # `make all plugins` is racy: the `plugins` target has no dependency on
+    # libRack.so (built by `all`), so with parallel builds the Fundamental
+    # plugin may link against a half-written libRack.so and fail with
+    # "file format not recognized". Force `plugins` to wait for `all`.
+    substituteInPlace Makefile \
+      --replace-fail 'plugins:' 'plugins: all'
   ''
   + lib.optionalString stdenv.hostPlatform.isLinux ''
     # Fix reference to zenity
