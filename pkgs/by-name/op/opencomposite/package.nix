@@ -54,7 +54,14 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {
+    # fetchSubmodules makes src a git URL, which nix-update cannot resolve
+    # to a GitLab project. Point it at the API archive URL instead.
+    extraArgs = [
+      "--url"
+      "https://gitlab.com/api/v4/projects/znixian%2FOpenOVR/repository/archive.tar.gz?sha=${finalAttrs.src.tag}"
+    ];
+  };
 
   meta = {
     description = "Reimplementation of OpenVR, translating calls to OpenXR";
